@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LADX Custom Sprite Sheet Tools</title>
+  </head>
+  <body>
+    <div class="container">
+      <h2 class="nav flex space">
+        <!--<a href="https://3and3.dev">3and3.dev</a>
+        <span>&nbsp;&gt;&nbsp;</span>-->
+        <span>LADX Custom Sprite Sheet Tools</span>
+      </h2>
+
+      <div class="flex column space">
+        <label for="rom">
+          Vanilla LADX rom (.gbc)
+        </label>
+        <input type="file" id="rom" accept=".gbc">
+      </div>
+
+      <div class="flex column space">
+        <label for="hack">
+          Randomized LADX rom (.gbc)
+        </label>
+        <input type="file" id="hack" accept=".gbc">
+      </div>
+
+      <div class="flex column space">
+        <label for="sheet">
+          Custom sprite sheet (.png, .bin, or .bdiff)
+        </label>
+        <input type="file" id="sheet" accept=".png, .bin, .bdiff">
+      </div>
+
+      <div class="flex column space actions">
+        <button id="generateTemplate" disabled>
+          Generate template from vanilla rom
+        </button>
+      </div>
+      <div class="flex column space actions">
+        <button id="patchRom" disabled>
+          Patch vanilla rom with custom sprite sheet
+        </button>
+        <button id="patchHack" disabled>
+          Patch randomized rom with custom sprite sheet
+        </button>
+      </div>
+      <div class="flex column space actions">
+        <button id="convertPng" disabled>
+          Convert custom sprite sheet to .png
+        </button>
+        <button id="convertBin" disabled>
+          Convert custom sprite sheet to .bin
+        </button>
+        <button id="convertBdiff" disabled>
+          Convert custom sprite sheet to .bdiff
+        </button>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
