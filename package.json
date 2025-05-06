@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npm run copy-wasm && vite",
     "copy-wasm": "node scripts/copy-wasm.js",
-    "build": "npm run copy-wasm && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
