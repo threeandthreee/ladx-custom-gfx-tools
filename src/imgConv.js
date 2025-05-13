@@ -17,6 +17,7 @@ export const pngToGb = async (buffer) => {
   if(cols != Math.floor(cols) || rows != Math.floor(rows))
     throw new Error("Invalid image size for 8x16 sprites")
   let result = []
+  let dv = new DataView(image.data.buffer, image.data.byteOffset)
   for (let row=0; row<rows; row++){
     for (let col=0; col<cols; col++){
     for (let y=0; y<spriteHeight; y++){
@@ -24,7 +25,7 @@ export const pngToGb = async (buffer) => {
       let lo = 0
       for (let x=0; x<spriteWidth; x++){
         let start = 4 * ((col*spriteWidth+x) + image.width*(row*spriteHeight+y))
-        let color = image.data.readUInt32LE(start)
+        let color = dv.getUint32(start, true)
         let val = pixelMap.indexOf(color)
         if(val < 0)
           val = 0
