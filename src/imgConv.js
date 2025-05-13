@@ -24,7 +24,7 @@ export const pngToGb = async (buffer) => {
       let lo = 0
       for (let x=0; x<spriteWidth; x++){
         let start = 4 * ((col*spriteWidth+x) + image.width*(row*spriteHeight+y))
-        let color = image.bitmap.readUInt32LE(start)
+        let color = image.data.readUInt32LE(start)
         let val = pixelMap.indexOf(color)
         if(val < 0)
           val = 0
@@ -62,7 +62,7 @@ export const gbToPng = async (arr) => {
       }
     }
   }
-  let bitmap = new Uint8Array(new Uint32Array(result).buffer)
-  let image = new Image(width, height, bitmap, { kind: 'RGBA' })
+  let data = new Uint8Array(new Uint32Array(result).buffer)
+  let image = new Image(width, height, data, { kind: 'RGBA' })
   return new Uint8Array(await image.toBuffer('image/png'))
 }
