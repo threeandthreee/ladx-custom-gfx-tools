@@ -20,19 +20,19 @@ export const pngToGb = async (buffer) => {
   let dv = new DataView(image.data.buffer, image.data.byteOffset)
   for (let row=0; row<rows; row++){
     for (let col=0; col<cols; col++){
-    for (let y=0; y<spriteHeight; y++){
-      let hi = 0
-      let lo = 0
-      for (let x=0; x<spriteWidth; x++){
-        let start = 4 * ((col*spriteWidth+x) + image.width*(row*spriteHeight+y))
-        let color = dv.getUint32(start, true)
-        let val = pixelMap.indexOf(color)
-        if(val < 0)
-          val = 0
-        if(val & 2)
-          hi |= 0x80 >> x
-        if(val & 1)
-          lo |= 0x80 >> x
+      for (let y=0; y<spriteHeight; y++){
+        let hi = 0
+        let lo = 0
+        for (let x=0; x<spriteWidth; x++){
+          let start = 4 * ((col*spriteWidth+x) + image.width*(row*spriteHeight+y))
+          let color = dv.getUint32(start, true)
+          let val = pixelMap.indexOf(color)
+          if(val < 0)
+            val = 0
+          if(val & 2)
+            hi |= 0x80 >> x
+          if(val & 1)
+            lo |= 0x80 >> x
         }
         result.push(hi, lo)
       }
