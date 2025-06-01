@@ -67,3 +67,31 @@ export const gbToPng = async (arr) => {
   let image = new Image(width, height, data, { kind: 'RGBA' })
   return new Uint8Array(await image.toBuffer('image/png'))
 }
+
+export const remapPalette = (buffer, remap) => {
+  const result = new Uint8Array(buffer.byteLength);
+  const view = new Uint8Array(buffer);
+
+  for (let i = 0; i < view.length; i += 16) {
+    for (let row = 0; row < 8; row++) {
+      const lo = view[i + row * 2];
+      const hi = view[i + row * 2 + 1];
+      let newLo = 0, newHi = 0;
+
+      for (let bit = 0; bit < 8; bit++) {
+        const lBit = (lo >> (7 - bit)) & 1;
+        const hBit = (hi >> (7 - bit)) & 1;
+        const val = (hBit << 1) | lBit;
+
+        const newVal = remap[val];
+        newLo |= (newVal & 1) << (7 - bit);
+        newHi |= ((newVal >> 1) & 1) << (7 - bit);
+      }
+
+      result[i + row * 2] = newLo;
+      result[i + row * 2 + 1] = newHi;
+    }
+  }
+
+  return result;
+}

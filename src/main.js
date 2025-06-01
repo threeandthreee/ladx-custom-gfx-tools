@@ -1,6 +1,6 @@
 import './style.css'
 import { bsdiff, bspatch } from './bsdiff.js'
-import { pngToGb, gbToPng } from './imgConv.js'
+import { pngToGb, gbToPng, remapPalette } from './imgConv.js'
 import { el, save } from './util.js'
 
 
@@ -27,9 +27,15 @@ const getTemplate = obj => obj.bytes.slice(TEMPLATE_START, TEMPLATE_END)
 const getSheetBytes = () =>
   sheet.type == 'bdiff' ? bspatch(getTemplate(rom), sheet.bytes) : sheet.bytes
 
-const patchRom = async (obj) => {
+const patchRom = async (obj, randoTweaks=false) => {
   let patched = new Uint8Array(obj.bytes)
   patched.set(await getSheetBytes(), TEMPLATE_START)
+
+  if (randoTweaks) {
+    let rooster = patched.slice(TEMPLATE_START + 0x19D00, TEMPLATE_START + 0x19D00 +64)
+    let remappedRooster = remapPalette(rooster, [0, 3, 2, 1])
+    patched.set(remappedRooster, TEMPLATE_START + 0x900)
+  }
 
   let headerChecksum = 0
   for (let i=0x0134; i<=0x014C; i++)
@@ -102,7 +108,7 @@ el('patchRom').addEventListener('click', async () => {
 })
 
 el('patchHack').addEventListener('click', async () => {
-  save(await patchRom(hack), `${hack.name}.${sheet.name}.gbc`)
+  save(await patchRom(hack, true), `${hack.name}.${sheet.name}.gbc`)
 })
 
 el('convertPng').addEventListener('click', async () => {
