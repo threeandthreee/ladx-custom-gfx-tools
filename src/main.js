@@ -58,6 +58,7 @@ const init = async () => {
   hack = await readFile(el('hack'))
   sheet = await readFile(el('sheet'))
   updateButtons()
+  setupDev()
 }
 
 const updateButtons = () => {
@@ -71,7 +72,8 @@ const updateButtons = () => {
     "patchHack": hl && sl && ( st != 'bdiff' || rl),
     "convertPng": sl && ( st == 'bin' || (rl && st == 'bdiff')),
     "convertBin": sl && ( st == 'png' || (rl && st == 'bdiff')),
-    "convertBdiff": rl && sl && st != 'bdiff'
+    "convertBdiff": rl && sl && st != 'bdiff',
+    "devShowSprite": rl
   }
   Object.entries(buttonStatus).forEach(([id, enabled]) => {
     if(enabled)
@@ -122,5 +124,19 @@ el('convertBin').addEventListener('click', async () => {
 el('convertBdiff').addEventListener('click', async () => {
   save(await bsdiff(getTemplate(rom), sheet.bytes), `${sheet.name}.bdiff`)
 })
+
+const setupDev = () => {
+  if(window.location.pathname == "/dev") {
+    el('dev').style.display = "flex"
+    el('devSpriteBank').value = "2C"
+    el('devSpriteAddress').value = "00"
+    el('devShowSprite').addEventListener('click', async () => {
+      // TODO offset
+      let section = rom.bytes.slice(TEMPLATE_START, TEMPLATE_END)
+      let blob = new Blob([await gbToPng(section)], {type:"image/png"})
+      el('devShownSprite').src = window.URL.createObjectURL(blob)
+    })
+  }
+}
 
 init()

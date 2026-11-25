@@ -71,6 +71,10 @@ button:focus-visible {
   margin-bottom: 24px;
 }
 
+.littlespace {
+  margin-bottom: 8px;
+}
+
 .flex {
   display: flex;
 }

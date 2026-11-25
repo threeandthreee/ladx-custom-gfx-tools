@@ -58,6 +58,27 @@
           Convert custom sprite sheet to .bdiff
         </button>
       </div>
+      <div id="dev" class="flex column space actions" style="display:none;">
+        <h3>Dev Tools</h3>
+        <div class="flex row littlespace">
+          <label for="devSpriteBank" style="width:80px">
+            Bank:&nbsp;
+          </label>
+          <code style="padding-top:2px;">0x</code>
+          <input type="text" id="devSpriteBank"/>
+        </div>
+        <div class="flex row littlespace">
+          <label for="devSpriteddress" style="width:80px">
+            Address:&nbsp;
+          </label>
+          <code style="padding-top:2px;">0x</code>
+          <input type="text" id="devSpriteAddress"/>
+        </div>
+        <button id="devShowSprite">
+          Show Sprite
+        </button>
+        <img id="devShownSprite"/>
+      </div>
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>
